@@ -26,11 +26,11 @@ Where the tool name is any of [tuscan, sgRNAScorer2, wu-crispr, ssc] and dataset
  - add other resources
 
 ## Other resources 
-  - SHAP values
-  - TUSCAN paper and code
-  - sgRNAScorer paper and code
-  - WU-CRISPR paper and code
-  - SSC paper and code 
+  - [Explain your model with the shap values](https://towardsdatascience.com/explain-your-model-with-the-shap-values-bc36aac4de3d)
+  - TUSCAN [paper](https://pubmed.ncbi.nlm.nih.gov/31021206/) and [code](https://github.com/BauerLab/TUSCAN)
+  - sgRNAScorer [paper](https://pubmed.ncbi.nlm.nih.gov/28146356/) and [code](https://sgrnascorer.cancer.gov/)
+  - WU-CRISPR [paper](https://genomebiology.biomedcentral.com/articles/10.1186/s13059-015-0784-0) and [code](https://github.com/wang-lab/WU-CRISPR)
+  - SSC [paper](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4509999/) and [code](https://sourceforge.net/projects/spacerscoringcrispr/) 
   
  ## Observations 
  For each tool, the code parts which construct the model and/or score the gRNA have been extracted and adapted to fit to the tooldata interface. For adding any other tool, its code only needs to be put into the specified format by the interface.
