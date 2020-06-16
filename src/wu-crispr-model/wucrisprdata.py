@@ -8,7 +8,15 @@ import joblib
 
 cwd = os.getcwd()
 
+########################################################################
+## This class contains extracted code from the Wu-Crispr source code
+## See: https://github.com/wang-lab/WU-CRISPR
+#######################################################################
+
+
 class StackingModel:
+    #The model uses some pre-trained models stored in joblib files
+    #see subfolder ./models
 
     def svm_scale(self, feature, ranges, lower, upper):
     	feature_scaled = zeros((feature.shape[0], feature.shape[1]))
@@ -58,8 +66,10 @@ class StackingModel:
 
         return prob_pred
 
+###############################################################################
+## The Wu-CRISPR model data
+##############################################################################
 class WuCrisprData(ToolData):
-    """A class containing the structure for a tool model data"""
 
     def loadTrainingSet(self):
         #the training set is the doench dataset
@@ -68,8 +78,7 @@ class WuCrisprData(ToolData):
         doenchFile.close()
         guides = [ l.strip().split(' ')[0] for l in guideTuples]
 
-        print("Loaded training set of " + str(len(guides)) + " samples.")
-        print("Computing features for the training set [not already available]")
+        #computes features for the training set.
         feature_set = []
         cnt = 0
         for g in guides:
@@ -81,6 +90,9 @@ class WuCrisprData(ToolData):
         df = pd.DataFrame(feature_set)
         return df
 
+
+    #The feature names are pre-stored in a text file
+    #To obtain them: see format_features_25.pm
     def loadFeatureNames(self):
         file = open ('./wu-crispr-model/names')
         names = file.readlines()
@@ -88,10 +100,13 @@ class WuCrisprData(ToolData):
         file.close()
         return names
 
+    #The model is defined in the class above
     def loadModel(self):
         s = StackingModel()
         return s
 
+    #To get the features, we call the pearl script supplied by Wu-CRISPR
+    #We do this via a separated script called callPerl
     def getFeatures(self,seq):
 
         #call the perl script on this sequence
