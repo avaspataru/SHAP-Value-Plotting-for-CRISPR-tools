@@ -8,6 +8,15 @@ import numpy as np
 
 class SgRNAScorer2Data(ToolData):
 
+
+    #########################################################################
+    ## This class contains extracted code from the source of SgRNAScorer 2
+    ## see https://sgrnascorer.cancer.gov/
+    ##
+    ## The extracted code has been split into different methods to fit in
+    ## the ToolData interface
+    #########################################################################
+
     # binary encoding
     encoding = defaultdict(str)
     encoding['A'] = '0001'
@@ -29,15 +38,19 @@ class SgRNAScorer2Data(ToolData):
     encoding['N'] = '1111'
 
 
+    #Initialising
     training_data = pd.DataFrame(np.array([]))
     training_target = np.array([])
 
+    #Fitting the model to the loaded training data
+    #Assumes training data has been loaded
     def loadModel(self):
         # model is a linear support vector classifier
         clfLinear = SVC(kernel='linear')
         clfLinear.fit(self.training_data,self.training_target)
         return clfLinear
 
+    #Returns an array of the 80 feature names
     def loadFeatureNames(self):
         #each data point has 80 features 0/1 => whether it has the nucleotide in that position
         features_names = []
@@ -48,6 +61,9 @@ class SgRNAScorer2Data(ToolData):
                 features_names.append(name)
         return features_names
 
+    #The training set are the two support vectors
+    #High = efficient ; Low = inefficient
+    #Method extracted from originak code
     def loadTrainingSet(self):
         goodFile = open('./sgRNAScorer2-model/Cas9.High.tab','r')
         badFile =  open('./sgRNAScorer2-model/Cas9.Low.tab','r')
@@ -110,6 +126,7 @@ class SgRNAScorer2Data(ToolData):
         return self.training_data
 
 
+    #Compute the feature set for a given sequence
     def getFeatures(self,seq):
         # the features are a 0 or 1 whether the nucleotides are in the position or not
 
