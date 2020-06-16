@@ -13,6 +13,16 @@ class TuscanData(ToolData):
 
     is_regression = False
 
+    #to determine if the current object will run the regression model or the classification model
+    def setRegressionFlag(self,flag):
+        self.is_regression = flag
+
+    ##############################################################################################
+    ## EXTRACTED CODE
+    ## The following methods needed for the prediction are extracted from the original TUSCAN code
+    ## See: https://github.com/BauerLab/TUSCAN
+    ##############################################################################################
+
     NucleotideLocation = namedtuple('NucleotideLocation', ['nucleotide', 'location'])
 
     DinucleotideLocation = namedtuple('DinucleotideLocation', ['dinucleotide', 'location'])
@@ -134,9 +144,6 @@ class TuscanData(ToolData):
     ]
 
 
-    def setRegressionFlag(self,flag):
-        self.is_regression = flag
-
     #determines gc content of given sequence
     def gc(self, seq, features, index):
         features[index] = round((seq.count('C') + seq.count('G'))/float(len(seq)) * 100, 2)
@@ -197,62 +204,73 @@ class TuscanData(ToolData):
             self.dinucleotide(seq, self.CLASSIFICATION_DINUCLEOTIDES_OF_INTEREST, features, 33)
         return features
 
+    ##############################################################################################
+    ## METHODS NEEDED FOR FITTING THE TOOL DATA INTERFACE
+    ## This code is adapted from the original Tuscan code.
+    ## Where possible pre-trained models have been saved in pickle/joblib files
+    ##############################################################################################
+
+    #The training set is saved in a pickle file
     def loadTrainingSet(self):
+        #There are different training sets for regression and classification
         if self.is_regression:
             f_name = './tuscan-model/training-set-tuscan-regression'
         else:
             f_name = './tuscan-model/training-set-tuscan-classification'
 
+        #load the training set
         infile = open(f_name,'rb')
         train = pickle.load(infile)
         train_df = pd.DataFrame(np.array(train))
         infile.close()
+
         return train_df
 
+    #The feature names have been created based on the original tuscan code and split in categories
     def loadFeatureNames(self):
         feature_names = []
-        if self.is_regression:
+        if self.is_regression: #The features for the regression model
             feature_names = [''] * 63
-            feature_names[0] = "gc"
-            feature_names[1] = "#A"
-            feature_names[2] = "#C"
-            feature_names[3] = "#G"
-            feature_names[4] = "#T"
+            #arrays to be used for regression features
+            dinucs = self.REGRESSION_DINUCLEOTIDES
+            nuc_of_interest = self.REGRESSION_NUCLEOTIDES_OF_INTEREST
+            dinuc_of_interest = self.REGRESSION_DINUCLEOTIDES_OF_INTEREST
 
-            f_pos = 5
-            for dinuc in self.REGRESSION_DINUCLEOTIDES:
-                feature_names[f_pos] = "#" + dinuc
-                f_pos = f_pos + 1
-
-            for nuc in self.REGRESSION_NUCLEOTIDES_OF_INTEREST:
-                feature_names[f_pos] = nuc.nucleotide + ":" + str(nuc.location)
-                f_pos = f_pos + 1
-
-            for dinuc in self.REGRESSION_DINUCLEOTIDES_OF_INTEREST:
-                feature_names[f_pos] = dinuc.dinucleotide + ":" + str(dinuc.location)
-                f_pos = f_pos + 1
-
-            feature_names[f_pos] = "TGGT@25"
-        else:
+        else: #Features for the classification model
             feature_names = [''] * 46
-            feature_names[0] = "gc"
-            feature_names[1] = "#A"
-            feature_names[2] = "#C"
-            feature_names[3] = "#G"
-            feature_names[4] = "#T"
+            #arrays to be used for classification features
+            dinucs = self.CLASSIFICATION_DINUCLEOTIDES
+            nuc_of_interest = self.CLASSIFICATION_NUCLEOTIDES_OF_INTEREST
+            dinuc_of_interest = self.CLASSIFICATION_DINUCLEOTIDES_OF_INTEREST
 
-            f_pos = 5
-            for dinuc in self.CLASSIFICATION_DINUCLEOTIDES:
-                feature_names[f_pos] = "#" + dinuc
-                f_pos = f_pos + 1
+        feature_names[0] = "gc" #Guanine and Cythosine content
 
-            for nuc in self.CLASSIFICATION_NUCLEOTIDES_OF_INTEREST:
-                feature_names[f_pos] = nuc.nucleotide + ":" + str(nuc.location)
-                f_pos = f_pos + 1
+        #nucleotide counts
+        feature_names[1] = "#A"
+        feature_names[2] = "#C"
+        feature_names[3] = "#G"
+        feature_names[4] = "#T"
 
-            for dinuc in self.CLASSIFICATION_DINUCLEOTIDES_OF_INTEREST:
-                feature_names[f_pos] = dinuc.dinucleotide + ":" + str(dinuc.location)
-                f_pos = f_pos + 1
+        f_pos = 5
+        #dinucleotide content
+        for dinuc in dinucs:
+            feature_names[f_pos] = "#" + dinuc
+            f_pos = f_pos + 1
+
+        #nucleotides at a specific position
+        for nuc in nuc_of_interest:
+            feature_names[f_pos] = nuc.nucleotide + ":" + str(nuc.location)
+            f_pos = f_pos + 1
+
+        #dinucleotides at a specific position
+        for dinuc in dinuc_of_interest:
+            feature_names[f_pos] = dinuc.dinucleotide + ":" + str(dinuc.location)
+            f_pos = f_pos + 1
+
+        if self.is_regression:
+            #If there is TGGT in the PAM
+            feature_names[f_pos] = "TGGT@25"
+
         return feature_names
 
 
