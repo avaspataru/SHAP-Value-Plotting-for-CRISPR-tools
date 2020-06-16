@@ -2,11 +2,8 @@ import shap
 import pandas as pd
 import pickle
 import argparse
-
-from tuscandata import *
-from sgRNAScorer2data import *
-from wucrisprdata import *
-from sscdata import *
+import sys
+import numpy as np
 
 #gets the 30-nucleotide sequences from the dataset (Xu / Doench)
 def getDataset(datasetName, toolName):
@@ -51,13 +48,21 @@ def getDataset(datasetName, toolName):
 #returns the object corresponding to the requested tool
 def getToolObject(toolName):
     if toolName in ['tuscan-regression','tuscan-classification']:
+        sys.path.insert(0,'./tuscan-model')
+        from tuscandata import TuscanData
         tool = TuscanData()
-        tool.setRegressionFlag(toolName=='tuscan-regression')
+        tool.setRegressionFlag(toolName=='tuscan-regression') #if regression
     elif toolName == 'sgrnascorer2':
+        sys.path.insert(0, './sgRNAScorer2-model')
+        from sgRNAScorer2data import SgRNAScorer2Data
         tool = SgRNAScorer2Data()
     elif toolName == 'wu-crispr':
+        sys.path.insert(0,'./wu-crispr-model')
+        from wucrisprdata import WuCrisprData
         tool = WuCrisprData()
     elif toolName == 'ssc':
+        sys.path.insert(0, './ssc-model')
+        from sscdata import SSCData
         tool = SSCData()
     else:
         print("Tool Name not valid")

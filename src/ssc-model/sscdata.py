@@ -4,6 +4,9 @@ import pandas as pd
 
 from tooldata import *
 
+#needed order of nucleotides as defined by the SSC model (A-1, C-2, G-3, T-4)
+nucleotides = ['A','C','G','T']
+
 class MatrixModel:
 
     matrix = [[]]
@@ -42,7 +45,8 @@ class MatrixModel:
 
 class SSCData(ToolData):
 
-    def loadTrainingSet(self): #training set is Xu
+    #the training set is the Xu dataet
+    def loadTrainingSet(self):
         xuFile = open('../datasets/Xu-2015_Is-Efficient.csv')
         GUIDE_INDEX = 4
         GUIDE_START_POS = 10
@@ -56,33 +60,35 @@ class SSCData(ToolData):
             sequences.append(guideSeq)
         xuFile.close()
 
+        #compute the features for the training set sequences
         feature_set = []
         for g in sequences:
             features = self.getFeatures(g)
             feature_set.append(features)
 
+        #put the features in a dataframe
         df = pd.DataFrame(feature_set)
         return df
 
+    #the features are whether a position has a specific nucleotide
     def loadFeatureNames(self):
         names = []
-        nucleotides = ['A','C','G','T']
-        for i in range(0,20): #features are just what is at each position (flags)
+        for i in range(0,20): #20bp
             for n in nucleotides:
                 names.append(str(i) + ":" + n)
         return names
 
-
+    #the model of the SSC tool is defined in MatrixModel class above
     def loadModel(self):
         model = MatrixModel()
         model.loadMatrix()
         return model
 
+    #Returns the feature set for a given nucleotide sequence
     def getFeatures(self,seq):
         features = []
-        nucleotides = ['A','C','G','T']
         for s in seq:
-            for n in nucleotides:
+            for n in nucleotides: #feature is a flag for nucleotide at position
                 if(s == n):
                     features.append(1)
                 else:
