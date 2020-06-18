@@ -7,12 +7,9 @@ import numpy as np
 
 #gets the 30-nucleotide sequences from the dataset (Xu / Doench)
 def getDataset(datasetName, toolName):
-
-    sequences = []
-
     if datasetName == 'xu':
         #WHERE THE DATASET IS
-        INPUT_FILE_NAME = "/users/ms19avs/Documents/proj/datasets/Xu-2015_Is-Efficient.csv"
+        INPUT_FILE_NAME = "../datasets/Xu-2015_Is-Efficient.csv"
         GUIDE_INDEX = 4 #column of the guide in the file
 
         # Used for extracting the guide from the CSV format
@@ -30,20 +27,37 @@ def getDataset(datasetName, toolName):
             GUIDE_START_POS = 10
             GUIDE_LEN = 23
 
-        #read in sequences
-        with open(INPUT_FILE_NAME, 'r') as fRead:
-            # read each line - file contains header and blank footer - then break apart by comma
-            for line in [x.split(',') for x in fRead.read().split('\n')[1:-1]]:
-                guideSeq = line[GUIDE_INDEX][GUIDE_START_POS:(GUIDE_START_POS + GUIDE_LEN)]
-                sequences.append(guideSeq)
-        return sequences
-
     elif datasetName =='doench':
-        print("Loading Doench not yet here")
-        quit()
+        #where the dataset is
+        INPUT_FILE_NAME = "../datasets/Doench-2014.csv"
+        GUIDE_INDEX = 1 #column of the quide in the file
+
+        #Used for extracting the guide from CSV format
+        # Used for extracting the guide from the CSV format
+        if (toolName in ['tuscan-regression','tuscan-classification']): #Tuscan has a special extraction of data since it uses context around the guide
+            GUIDE_START_POS = 0
+            GUIDE_LEN = 23 + 4 + 3 # TUSCAN considers nucleotides 4 upstream, 3 upstream from guide (?=([ACTG]{25}GG[ACTG]{3}))
+        elif toolName == 'wu-crispr': #it needs 3 more nucleotides after the guide
+            GUIDE_START_POS = 4
+            GUIDE_LEN = 23 + 3
+        elif toolName == 'ssc': #it doesn't take the PAM
+            GUIDE_START_POS = 4
+            GUIDE_LEN = 20
+        else: #default for all the other tools
+            GUIDE_START_POS = 4
+            GUIDE_LEN = 23
     else:
         print("Dataset not supported")
         quit()
+
+    #read in sequences
+    sequences = []
+    with open(INPUT_FILE_NAME, 'r') as fRead:
+        # read each line - file contains header and blank footer - then break apart by comma
+        for line in [x.split(',') for x in fRead.read().split('\n')[1:-1]]:
+            guideSeq = line[GUIDE_INDEX][GUIDE_START_POS:(GUIDE_START_POS + GUIDE_LEN)]
+            sequences.append(guideSeq)
+    return sequences
 
 #returns the object corresponding to the requested tool
 def getToolObject(toolName):
