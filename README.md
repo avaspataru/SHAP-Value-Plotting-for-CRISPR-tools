@@ -18,12 +18,10 @@ This project is producing SHAP summary plots for the features of some CRISPR sgR
 python shapleyvals.py --tool ToolName --data DatasetName
 ```
 
-Where the tool name is any of [tuscan, sgRNAScorer2, wu-crispr, ssc] and dataset name is any of [xu, doench]. Case insensitive. 
+Where the tool name is any of [tuscan-classification, tuscan-regression, sgRNAScorer2, wu-crispr, ssc] and dataset name is any of [xu, doench]. Case insensitive. 
   
 ## To do
  - add CHOP-CHOP tool 
- - load Doench dataset in main shapleyvals
- - add other resources
 
 ## Other resources 
   - [Explain your model with the shap values](https://towardsdatascience.com/explain-your-model-with-the-shap-values-bc36aac4de3d)
@@ -34,4 +32,6 @@ Where the tool name is any of [tuscan, sgRNAScorer2, wu-crispr, ssc] and dataset
   
  ## Observations 
  For each tool, the code parts which construct the model and/or score the gRNA have been extracted and adapted to fit to the tooldata interface. For adding any other tool, its code only needs to be put into the specified format by the interface.
+ 
+ Some of the tools require different packages to unpickle files (different versions of scikit-learn). There will be a warning informing you if the wrong version is ran
   
