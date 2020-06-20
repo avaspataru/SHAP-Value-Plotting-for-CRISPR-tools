@@ -149,6 +149,11 @@ def standardize(scoreDict):
 
     return newScoreDict
 
-XU_2015_STANDARD = standardize(XU_2015)
-DOENCH_2014_STANDARD = standardize(DOENCH_2014)
-MORENO_MATEOS_2015_STANDARD = standardize(MORENO_MATEOS_2015)
+def getXuScoring():
+    return standardize(XU_2015)
+
+def getDoenchScoring():
+    return standardize(DOENCH_2014)
+
+def getMorenoScoring():
+    return standardize(MORENO_MATEOS_2015)

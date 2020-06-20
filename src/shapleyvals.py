@@ -78,6 +78,11 @@ def getToolObject(toolName):
         sys.path.insert(0, './ssc-model')
         from sscdata import SSCData
         tool = SSCData()
+    elif toolName == 'chop-chop':
+        #ASSUME Xu scoring method = TO DO CHANGE
+        sys.path.insert(0, './chop-chop-model')
+        from chopchopdata import ChopChopData
+        tool = ChopChopData()
     else:
         print("Tool Name not valid")
         quit()
@@ -87,6 +92,8 @@ def getToolObject(toolName):
 def main(toolName,datasetName):
 
     tool = getToolObject(toolName)
+
+    res = tool.loadModel().predict([tool.getFeatures("AAAAAAAAAAGGGGGGGGGGTGG")])
 
     #load the dataset [used as daa in shapley plot]
     sequences = getDataset(datasetName, toolName)
