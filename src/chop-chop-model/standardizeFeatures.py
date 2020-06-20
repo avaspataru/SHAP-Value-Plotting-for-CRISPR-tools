@@ -114,12 +114,25 @@ def standardize(scoreDict):
             newScoreDict[feature] = value
             continue
 
-        if feature[0:3] == "PAM": #Pam positions are counted 1,2,3 and should stay the same
-            newScoreDict[feature] = value
+        if feature[0:3] == "PAM": #Pam positions are counted 1,2,3 and should be 0,1,2
+            if feature[4].isnumeric(): #PAMNi
+                nuc = feature[3]
+                pos = int(feature[4]) #only (1,2,3)
+
+            else: #PAMNNi
+                nuc = feature[3:5]
+                pos = int(feature[5]) #only (1,2,3)
+
+            newPos = pos - 1
+            newFeature = "PAM" + nuc + str(newPos)
+            newScoreDict[newFeature] = value
             continue
 
-        if feature[0].isnumeric(): #Feature names that start with a number are in the tail and should stay the same
-            newScoreDict[feature] = value
+        if feature[0].isnumeric(): #Feature names that start with a number are in the tail
+            #the positions are (1,2,3,4,5,6) and should be (0,1,2,3,4,5)
+            newPos = int(feature[0]) - 1
+            newFeature = str(newPos) + feature[1:]
+            newScoreDict[newFeature] = value
             continue
 
         #feature name is NNi or Ni
