@@ -14,15 +14,15 @@ class CoefficientModel:
 
     # Loads the appropriate scoring method
     # In standardized format of feature names (see standardizeFeatures.py)
-    def setScoring(self,scoringMethod):
-        if scoringMethod == 'DOENCH_2014':
+    def setScoring(self,toolName):
+        if toolName == 'chop-chop-doench':
             self.scoring = getDoenchScoring()
-        elif scoringMethod == 'XU_2015':
+        elif toolName == 'chop-chop-xu':
             self.scoring = getXuScoring()
-        elif scoringMethod == 'MORENO_MATEOS_2015':
+        elif toolName == 'chop-chop-moreno':
             self.scoring = getMorenoScoring()
         else:
-            print("Scoring method not supported " + scoringMethod)
+            print("Scoring method not supported " + toolName)
             quit()
 
     #For a given dataframe of data with calculated features
@@ -86,20 +86,34 @@ class CoefficientModel:
 
 class ChopChopData():
 
+    scoringMethod = '' #chop-chop-xu , chop-chop-doench, chop-chop-moreno
+
+    #sets the scoring method upon tool object initialisation
+    def setScoring(self, scoringMethod):
+        self.scoringMethod = scoringMethod
+
     #the training set is the Xu dataet for the Xu scoring method
     def loadTrainingSet(self):
-        xuFile = open('../datasets/Xu-2015_Is-Efficient.csv')
-        GUIDE_INDEX = 4
-        GUIDE_START_POS = 10
-        GUIDE_LEN = 23
+
+        if self.scoringMethod == 'chop-chop-xu': #the training set is Xu
+            file = open('../datasets/Xu-2015_Is-Efficient.csv')
+            GUIDE_INDEX = 4
+            GUIDE_START_POS = 10
+            GUIDE_LEN = 23
+        else: #the training set is Doench
+            file = open('../datasets/Doench-2014.csv')
+            GUIDE_INDEX = 1
+            GUIDE_START_POS = 4
+            GUIDE_LEN = 23
+
 
         sequences = []
 
         # read each line - file contains header and blank footer - then break apart by comma
-        for line in [x.split(',') for x in xuFile.read().split('\n')[1:-1]]:
+        for line in [x.split(',') for x in file.read().split('\n')[1:-1]]:
             guideSeq = line[GUIDE_INDEX][GUIDE_START_POS:(GUIDE_START_POS + GUIDE_LEN)]
             sequences.append(guideSeq)
-        xuFile.close()
+        file.close()
 
         #compute the features for the training set sequences
         feature_set = []
@@ -148,7 +162,7 @@ class ChopChopData():
 
     def loadModel(self):
         model = CoefficientModel()
-        model.setScoring("XU_2015") #TODO: put all
+        model.setScoring(self.scoringMethod)
         return model
 
     def getFeatures(self,seq):

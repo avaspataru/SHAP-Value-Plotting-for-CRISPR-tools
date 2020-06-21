@@ -78,11 +78,12 @@ def getToolObject(toolName):
         sys.path.insert(0, './ssc-model')
         from sscdata import SSCData
         tool = SSCData()
-    elif toolName == 'chop-chop':
+    elif toolName in ['chop-chop-xu', 'chop-chop-doench', 'chop-chop-moreno']:
         #ASSUME Xu scoring method = TO DO CHANGE
         sys.path.insert(0, './chop-chop-model')
         from chopchopdata import ChopChopData
         tool = ChopChopData()
+        tool.setScoring(toolName)
     else:
         print("Tool Name not valid")
         quit()
@@ -92,8 +93,6 @@ def getToolObject(toolName):
 def main(toolName,datasetName):
 
     tool = getToolObject(toolName)
-
-    res = tool.loadModel().predict([tool.getFeatures("AAAAAAAAAAGGGGGGGGGGTGG")])
 
     #load the dataset [used as daa in shapley plot]
     sequences = getDataset(datasetName, toolName)
@@ -128,7 +127,7 @@ def main(toolName,datasetName):
 
     #summarize training set and subsample test set
     summary_train_df = shap.kmeans(train_df,2)
-    dataset_sub_df = dataset_df # optional to speed up things can use dataset_df.sample(400)
+    dataset_sub_df = dataset_df.sample(5) # optional to speed up things can use dataset_df.sample(400)
 
     #compute and plot shapley values
     svm_shap_values = shap.KernelExplainer(model.predict,summary_train_df)
