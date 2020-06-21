@@ -259,17 +259,17 @@ class TuscanData(ToolData):
 
         #nucleotides at a specific position
         for nuc in nuc_of_interest:
-            feature_names[f_pos] = nuc.nucleotide + ":" + str(nuc.location)
+            feature_names[f_pos] = nuc.nucleotide + ":" + str(nuc.location - 4) #-4 downstream nucleotides
             f_pos = f_pos + 1
 
         #dinucleotides at a specific position
         for dinuc in dinuc_of_interest:
-            feature_names[f_pos] = dinuc.dinucleotide + ":" + str(dinuc.location)
+            feature_names[f_pos] = dinuc.dinucleotide + ":" + str(dinuc.location - 4) #-4 downstream nucleotides
             f_pos = f_pos + 1
 
         if self.is_regression:
             #If there is TGGT in the PAM
-            feature_names[f_pos] = "TGGT@25"
+            feature_names[f_pos] = "TGGT:PAM"
 
         return feature_names
 
