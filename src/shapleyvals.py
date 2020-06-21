@@ -127,7 +127,7 @@ def main(toolName,datasetName):
 
     #summarize training set and subsample test set
     summary_train_df = shap.kmeans(train_df,2)
-    dataset_sub_df = dataset_df.sample(5) # optional to speed up things can use dataset_df.sample(400)
+    dataset_sub_df = dataset_df # optional to speed up things can use dataset_df.sample(400)
 
     #compute and plot shapley values
     svm_shap_values = shap.KernelExplainer(model.predict,summary_train_df)
