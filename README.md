@@ -31,5 +31,6 @@ Where the tool name is any of [tuscan-classification, tuscan-regression, sgRNASc
  ## Observations 
  For each tool, the code parts which construct the model and/or score the gRNA have been extracted and adapted to fit to the tooldata interface. For adding any other tool, its code only needs to be put into the specified format by the interface.
  
- Some of the tools require different packages to unpickle files (different versions of scikit-learn). There will be a warning informing you if the wrong version is ran
+ Some of the tools require different packages to unpickle files (different versions of scikit-learn). There will be a warning informing you if the wrong version is ran.
   
+  The scripts take guides of length 20 and score them assuming PAM NGG.
