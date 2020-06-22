@@ -38,15 +38,14 @@ class CoefficientModel:
                 score = self.scoring["Intercept"]
 
             #GC content features (0,1) = (low, high)
-            if d[0] != 0 and "gc_low" in self.scoring.keys(): #gc_low
-                gc = d[0]
+            gc = d[0]
+            if gc < 10 and "gc_low" in self.scoring.keys(): #gc_low
                 score = score + (abs(gc-10) * self.scoring["gc_low"])
-            if d[1] != 0 and "gc_high" in self.scoring.keys(): #gc_high
-                gc = d[1]
+            if gc > 10 and "gc_high" in self.scoring.keys(): #gc_high
                 score = score + ((gc-10) * self.scoring["gc_high"])
 
             #N in position i
-            featureIndex = 2
+            featureIndex = 1
             for i in range(0,20):
                 for n in nucleotides:
                     if d[featureIndex] == 1: #yes, n is in position i
@@ -129,8 +128,7 @@ class ChopChopData():
     def loadFeatureNames(self):
         featureNames = []
 
-        featureNames.append("gc_low") # <10
-        featureNames.append("gc_high") # >10
+        featureNames.append("gc") # low <10, high > 10
 
         #nucleotide at position
         for pos in range(0,20): #the guide
@@ -171,17 +169,9 @@ class ChopChopData():
         pam = seq[:-3]
         guide = seq[0:20]
 
-        #GC content features
+        #GC content feature
         gc = guide.count('G') + guide.count('C')
-        if gc < 10:
-            features.append(gc) #gc_low
-            features.append(0) #gc not high
-        elif gc > 10:
-            features.append(0) #gc not low
-            features.append(gc) #gc high
-        else:
-            features.append(0) #gc not low
-            features.append(0) #gc not high
+        features.append(gc)
 
         #nucleotide at position
         for pos in range(0,20): #the guide
