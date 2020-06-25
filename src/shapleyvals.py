@@ -106,7 +106,7 @@ def main(toolName,datasetName):
         features = tool.getFeatures(seq)
         feature_set.append(features)
         if toolName == 'wu-crispr' and cnt % 100 == 0: #inform on progress [wu-crispr takes a while]
-            print("Calculated features for " + str(cnt))
+            print("-- Calculated features for " + str(cnt))
         cnt = cnt + 1
     print("Calculated the features for this dataset.")
 
@@ -130,9 +130,17 @@ def main(toolName,datasetName):
     dataset_sub_df = dataset_df # optional to speed up things can use dataset_df.sample(400)
 
     #compute and plot shapley values
-    svm_shap_values = shap.KernelExplainer(model.predict,summary_train_df)
-    shap.summary_plot(svm_shap_values.shap_values(dataset_sub_df), dataset_sub_df)
+    shap_explainer = shap.KernelExplainer(model.predict,summary_train_df)
+    shap_values = shap_explainer.shap_values(dataset_sub_df)
 
+    #save the values
+    with open("../results/SHAP-"+toolName+"-"+datasetName, 'wb') as file:
+        pickle.dump(shap_values,file) #the SHAP values
+        pickle.dump(dataset_sub_df,file) #the data used
+    print("Computed and saved SHAP values.")
+
+    #ploatting
+    shap.summary_plot(shap_values, dataset_sub_df)
 
 
 
