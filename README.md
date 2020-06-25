@@ -1,25 +1,42 @@
 # Shapley Value Plotting for CRISPR tools
 MSc Thesis Project
 
-This project is producing SHAP summary plots for the features of some CRISPR sgRNA design tools when ran on different datasets.
+This project is producing SHAP summary plots for the features of some CRISPR sgRNA design tools when ran on different datasets. The main functionality is that given a tool name and a dataset name, it will run the SHAP analysis and produce a plot with the SHAP values for the top 20 most important features. The values are also saved in pickle files to be loaded more easily afterwards. 
 
 ## Main files 
   **datasets** : scripts for extracting the guide sequences (in tool specific format) from the original dataset files
   
-  **src/shapleyvals.py** : runs the SHAP analysis and produces a plot for the specified tool on the specified dataset
+  **src/shapleyvals.py** : runs the SHAP analysis and produces a plot for the specified tool on the specified dataset 
   
   **src/tooldata.py** : interface class for the tool-specific data file in order to be ran by shapleyvals.py
   
   **src/tool-model** : contains the necessary files for running the specific tool
   
+  **results**: contains pickle files with saved SHAP values for all the models and tools ran
+  
+  **results/plotfrompickle.py**: given a pickle file name, it will load the SHAP values and produce the plot
+  
 ## Running instructions 
+
+**To run the complete SHAP analysis: **
 
 ```
 python shapleyvals.py --tool ToolName --data DatasetName
 ```
 
 Where the tool name is any of [tuscan-classification, tuscan-regression, sgRNAScorer2, wu-crispr, ssc, chop-chop-xu, chop-chop-doench, chop-chop-moreno] and dataset name is any of [xu, doench]. Case insensitive. 
+
+The plot will appear on the screen and the SHAP values will be saved in results/SHAP-toolName-datasetName as a pickle file. 
   
+**To compute the plot from the presaved SHAP values: **
+
+```
+python plotfrompickle.py --file pickleFileName
+```
+
+Where the pickleFileName must be a pickle file in the current directory (results) and contain two pickles (one with the SHAP values and one with the data). These files are produced automatically by the shapleyvals.py script. 
+
+The plot will appear on the screen.
   
 ## Other resources 
   - [Explain your model with the shap values](https://towardsdatascience.com/explain-your-model-with-the-shap-values-bc36aac4de3d)
