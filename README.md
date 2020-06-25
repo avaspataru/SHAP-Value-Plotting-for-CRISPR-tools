@@ -18,7 +18,7 @@ This project is producing SHAP summary plots for the features of some CRISPR sgR
   
 ## Running instructions 
 
-**To run the complete SHAP analysis: **
+**To run the complete SHAP analysis**:
 
 ```
 python shapleyvals.py --tool ToolName --data DatasetName
@@ -28,7 +28,7 @@ Where the tool name is any of [tuscan-classification, tuscan-regression, sgRNASc
 
 The plot will appear on the screen and the SHAP values will be saved in results/SHAP-toolName-datasetName as a pickle file. 
   
-**To compute the plot from the presaved SHAP values: **
+**To compute the plot from the presaved SHAP values**:
 
 ```
 python plotfrompickle.py --file pickleFileName
