@@ -11,9 +11,11 @@ fileName = args.file
 
 #load the SHAP values and the data
 p = open(fileName,"rb")
+print("Loading data...")
 shap_values = pickle.load(p)
 dataset = pickle.load(p)
 p.close()
 
 #plot
+print("Plotting...")
 shap.summary_plot(shap_values, dataset)
