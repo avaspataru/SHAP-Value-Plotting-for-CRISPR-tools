@@ -25,7 +25,9 @@ python shapleyvals.py --tool ToolName --data DatasetName
 
 Where the tool name is any of [tuscan-classification, tuscan-regression, sgRNAScorer2, wu-crispr, ssc, chop-chop-xu, chop-chop-doench, chop-chop-moreno] and dataset name is any of [xu, doench]. Case insensitive. 
 
-The plot will appear on the screen and the SHAP values will be saved in results/SHAP-toolName-datasetName as a pickle file. 
+The plot will appear on the screen and the SHAP values will be saved in results/SHAP-toolName-datasetName as a pickle file. This is an example output:
+
+![alt text](https://github.com/avaspataru/Shapley-Value-Plotting-for-CRISPR-tools/blob/master/plots/SHAP-summary/Tuscan-Classification-Doench.JPG)
   
 **To compute the plot from the presaved SHAP values**:
 
@@ -35,15 +37,19 @@ python plotfrompickle.py --file pickleFileName
 
 Where the pickleFileName must be a pickle file in the results directory and contain two pickles (one with the SHAP values and one with the data). These files are produced automatically by the shapleyvals.py script. 
 
-The plot will appear on the screen. 
+The plot produced will be the same as the above one, but the running time will be much faster. 
 
 **To compute plots with the SHAP values for positional features**: 
 
 ```
 python analyse.py --file pickleFileName
 ```
+
 Where the pickleFileName is the same as above (from the results directory). This script will produce a plot looking at the positional features (e.g. G at position 19 in the guide) and plot the SHAP values in a bar plot.
 
+The plot will appear on the screen and will have the SHAP values for each position in the guide. This is an example output: 
+
+![alt text](https://github.com/avaspataru/Shapley-Value-Plotting-for-CRISPR-tools/blob/master/plots/guide-positions/SSC-xu.JPG)
 
 
 ## Main files 
@@ -57,8 +63,11 @@ Where the pickleFileName is the same as above (from the results directory). This
   
   **results**: contains pickle files with saved SHAP values for all the models and tools ran
   
-  **plotfrompickle.py**: given a pickle file name (from within results), it will load the SHAP values and produce the plot
+  **plotfrompickle.py**: given a pickle file name (from within results), it will load the SHAP values and produce the SHAP summary plot
   
+  **analyse.py**: given a pickle file name (from within results), it will generate a plot of SHAP values by positions in the guide
+  
+  **utils.py**: this contains general methods used by the other scripts
 
   
 ## Other resources 
