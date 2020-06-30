@@ -15,19 +15,6 @@ shap==0.35.0
 ```
 For a fast set-up create a conda environment with the provided environment.yml file. This contains all the packages needed by the project.
 
-## Main files 
-  **datasets** : scripts for extracting the guide sequences (in tool specific format) from the original dataset files
-  
-  **src/shapleyvals.py** : runs the SHAP analysis and produces a plot for the specified tool on the specified dataset 
-  
-  **src/tooldata.py** : interface class for the tool-specific data file in order to be ran by shapleyvals.py
-  
-  **src/tool-model** : contains the necessary files for running the specific tool
-  
-  **results**: contains pickle files with saved SHAP values for all the models and tools ran
-  
-  **plotfrompickle.py**: given a pickle file name (from within results), it will load the SHAP values and produce the plot
-  
 ## Running instructions 
 
 **To run the complete SHAP analysis**:
@@ -48,7 +35,31 @@ python plotfrompickle.py --file pickleFileName
 
 Where the pickleFileName must be a pickle file in the results directory and contain two pickles (one with the SHAP values and one with the data). These files are produced automatically by the shapleyvals.py script. 
 
-The plot will appear on the screen.
+The plot will appear on the screen. 
+
+**To compute plots with the SHAP values for positional features**: 
+
+```
+python analyse.py --file pickleFileName
+```
+Where the pickleFileName is the same as above (from the results directory). This script will produce a plot looking at the positional features (e.g. G at position 19 in the guide) and plot the SHAP values in a bar plot.
+
+
+
+## Main files 
+  **datasets** : scripts for extracting the guide sequences (in tool specific format) from the original dataset files
+  
+  **src/shapleyvals.py** : runs the SHAP analysis and produces a plot for the specified tool on the specified dataset 
+  
+  **src/tooldata.py** : interface class for the tool-specific data file in order to be ran by shapleyvals.py
+  
+  **src/tool-model** : contains the necessary files for running the specific tool
+  
+  **results**: contains pickle files with saved SHAP values for all the models and tools ran
+  
+  **plotfrompickle.py**: given a pickle file name (from within results), it will load the SHAP values and produce the plot
+  
+
   
 ## Other resources 
   - [Explain your model with the shap values](https://towardsdatascience.com/explain-your-model-with-the-shap-values-bc36aac4de3d)
