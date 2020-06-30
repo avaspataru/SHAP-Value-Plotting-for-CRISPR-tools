@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 import sys
 
-from ..tooldata import *
+from tooldata import *
 
 #needed order of nucleotides as defined by the SSC model (A-1, C-2, G-3, T-4)
 nucleotides = ['A','C','G','T']
