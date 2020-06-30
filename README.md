@@ -26,7 +26,7 @@ For a fast set-up create a conda environment with the provided environment.yml f
   
   **results**: contains pickle files with saved SHAP values for all the models and tools ran
   
-  **results/plotfrompickle.py**: given a pickle file name, it will load the SHAP values and produce the plot
+  **plotfrompickle.py**: given a pickle file name (from within results), it will load the SHAP values and produce the plot
   
 ## Running instructions 
 
@@ -46,7 +46,7 @@ The plot will appear on the screen and the SHAP values will be saved in results/
 python plotfrompickle.py --file pickleFileName
 ```
 
-Where the pickleFileName must be a pickle file in the current directory (results) and contain two pickles (one with the SHAP values and one with the data). These files are produced automatically by the shapleyvals.py script. 
+Where the pickleFileName must be a pickle file in the results directory and contain two pickles (one with the SHAP values and one with the data). These files are produced automatically by the shapleyvals.py script. 
 
 The plot will appear on the screen.
   
