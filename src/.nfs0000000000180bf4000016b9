@@ -117,4 +117,6 @@ plt.xlabel("Guide positions")
 plt.title("SHAP values for positional features from " + getToolName(fileName).upper() + " ran on the " + getDatasetName(fileName).upper() + " dataset")
 plt.legend((pA[0], pC[0], pG[0], pT[0]), ('A', 'C', 'G', 'T'))
 
+plt.savefig('../plots/guide-positions/'+getToolName(fileName).upper() +'-'+ getDatasetName(fileName).lower() )
+
 plt.show()
