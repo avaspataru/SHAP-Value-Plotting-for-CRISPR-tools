@@ -12,12 +12,15 @@ nucleotides = ['A','C','G','T']
 
 #gets the tool name from the file name given as argument
 def getToolName(fileName):
-    toolName = fileName.split('-')[1]
+    split = fileName.split('-')
+    #without shap and without dataset
+    toolName = '-'.join(split[1:-1])
     return toolName
 
 #gets the dataset name from the fileName given as argument
 def getDatasetName(fileName):
-    dataName = fileName.split('-')[2]
+    split = fileName.split('-')
+    dataName = split[-1] #last word in fileName
     return dataName
 
 #gets the feature names for the tool which was used to produce the pickle file
@@ -75,12 +78,14 @@ for f in featureImp:
     featureValue = f[0] #the shapley value of this feature
     featureName = f[1] #the name of this feature
 
+    if 'PAM' in featureName or '_p' in featureName or '_lf' in featureName or '_rf' in featureName: #ignore because we don't account for pam, right or left positions
+        continue
+
     #matching the feature name to something containing position-nucleotide [only one nucleotide!]
     #(position) (maybe :) (nucleotide) (anything but another nucleotide)
-    m = re.match(r"(?P<pos>((\d)(\d)*))(:)?(?P<nuc>[ACGT])([^ACGT](.*))?$", featureName)
+    m = re.match(r"((.*)[^0-9])?(?P<pos>((\d)(\d)*))(:)?(?P<nuc>[ACGT])([^ACGT](.*))?$", featureName)
 
     if m == None: #maybe the position and nucleotide are in reverse order
-        print("rev")
         #(something + not a nucleotide or start) (nucleotide) (maybe :) (pos) (not digit + something or end)
         m = re.match(r"^((.*)[^ACGT])?(?P<nuc>[ACGT])(:)?(?P<pos>((\d)(\d)*))([^0-19](.*))?$", featureName)
 
@@ -90,9 +95,10 @@ for f in featureImp:
     pos = int( (m.group('pos')) )
     nuc = nucleotides.index(m.group('nuc')) # A:0, C:1, G:2, T:3
 
+
     averages[nuc][pos] = featureValue
 
-assert matches == 80 #can only have 80 positional features
+assert matches <= 80 #can only have 80 positional features
 
 print("Plotting...")
 
