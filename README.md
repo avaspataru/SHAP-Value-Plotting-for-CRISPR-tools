@@ -82,4 +82,4 @@ The plot will appear on the screen and will have the SHAP values for each positi
  
  Some of the tools require different packages to unpickle files (different versions of scikit-learn). There will be a warning informing you if the wrong version is ran.
   
-  The scripts take guides of length 20 and score them assuming PAM NGG.
+  The scripts take guides of length 20 and score them assuming PAM NGG. All the guide positions are standardized to 0-19, where 19 is the position adjacent to the PAM.
