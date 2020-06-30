@@ -4,7 +4,7 @@ MSc Thesis Project
 This project is producing SHAP summary plots for the features of some CRISPR sgRNA design tools when ran on different datasets. The main functionality is that given a tool name and a dataset name, it will run the SHAP analysis and produce a plot with the SHAP values for the top 20 most important features. The values are also saved in pickle files to be loaded more easily afterwards. 
 
 ## Setting up 
- The scripts in this project require Python 3 and the following packages (which can be installed with pip3): 
+ The scripts in this project require Python 3 and the following packages (which can be installed with pip3) with their corresponding dependencies: 
  
  ```
 joblib==0.15.1
