@@ -21,7 +21,7 @@ For a fast set-up create a conda environment with the provided environment.yml f
 **To run the complete SHAP analysis**:
 
 ```
-python shapleyvals.py --tool ToolName --data DatasetName
+python computeShapVals.py --tool ToolName --data DatasetName
 ```
 
 Where the tool name is any of [tuscan-classification, tuscan-regression, sgRNAScorer2, wu-crispr, ssc, chop-chop-xu, chop-chop-doench, chop-chop-moreno] and dataset name is any of [xu, doench]. Case insensitive. 
@@ -33,17 +33,17 @@ The plot will appear on the screen and the SHAP values will be saved in results/
 **To compute the plot from the presaved SHAP values**:
 
 ```
-python plotfrompickle.py --file pickleFileName
+python plotShapFromPickle.py --file pickleFileName
 ```
 
-Where the pickleFileName must be a pickle file in the results directory and contain two pickles (one with the SHAP values and one with the data). These files are produced automatically by the shapleyvals.py script. 
+Where the pickleFileName must be a pickle file in the results directory and contain two pickles (one with the SHAP values and one with the data). These files are produced automatically by the computeShapVals.py script. 
 
 The plot produced will be the same as the above one, but the running time will be much faster. 
 
-**To compute plots with the SHAP values for positional features**: 
+**To produce plots with the SHAP values for positional features**: 
 
 ```
-python analyse.py --file pickleFileName
+python plotPositionsFromPickle.py --file pickleFileName
 ```
 
 Where the pickleFileName is the same as above (from the results directory). This script will produce a plot looking at the positional features (e.g. G at position 19 in the guide) and plot the SHAP values in a bar plot.
@@ -52,6 +52,21 @@ The plot will appear on the screen and will have the SHAP values for each positi
 
 ![alt text](https://github.com/avaspataru/Shapley-Value-Plotting-for-CRISPR-tools/blob/master/plots/guide-positions/SSC-xu.JPG)
 
+**To compare positions across different methods**: 
+
+```
+python comparePositionTools.py
+```
+
+This script will produce a plot similar to the one above (for one tool, all the positional features), but by combining multiple tools. This serves to compare the positional preferences across tools. It requires the pickle files to be generated for the tools to be used.
+
+**To create a heatmap and csv of all the average SHAP values across all the tools**: 
+
+```
+python shapToHeatMap.py
+```
+
+This script will take the average SHAP values of all positional features across all the tools and prints them in a csv (avg_shap_vals.csv) and produces a heatmap showing all the values together. It requires the pickle files for all tools to be generated. 
 
 ## Main files 
   **datasets** : scripts for extracting the guide sequences (in tool specific format) from the original dataset files
