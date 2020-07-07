@@ -68,22 +68,18 @@ python shapToHeatMap.py
 
 This script will take the average SHAP values of all positional features across all the tools and prints them in a csv (avg_shap_vals.csv) and produces a heatmap showing all the values together. It requires the pickle files for all tools to be generated. 
 
-## Main files 
+## Other files 
   **datasets** : scripts for extracting the guide sequences (in tool specific format) from the original dataset files
   
-  **src/shapleyvals.py** : runs the SHAP analysis and produces a plot for the specified tool on the specified dataset 
+  **results**: contains pickle files with saved SHAP values for all the models and tools ran
+  
+  **plots**: contains saved plots produced throughout this project
   
   **src/tooldata.py** : interface class for the tool-specific data file in order to be ran by shapleyvals.py
   
   **src/tool-model** : contains the necessary files for running the specific tool
   
-  **results**: contains pickle files with saved SHAP values for all the models and tools ran
-  
-  **plotfrompickle.py**: given a pickle file name (from within results), it will load the SHAP values and produce the SHAP summary plot
-  
-  **analyse.py**: given a pickle file name (from within results), it will generate a plot of SHAP values by positions in the guide
-  
-  **utils.py**: this contains general methods used by the other scripts
+  **src/utils.py**: this contains general methods used by the other scripts
 
   
 ## Other resources 
