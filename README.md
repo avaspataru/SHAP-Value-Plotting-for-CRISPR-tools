@@ -12,6 +12,7 @@ matplotlib==3.2.2
 pandas==1.0.4
 pybedtools==0.8.1
 scikit-learn==0.20.0
+seaborn==0.10.1
 shap==0.35.0
 ```
 For a fast set-up create a conda environment with the provided environment.yml file. This contains all the packages needed by the project. For instructions on how to load and use an environment, refer to: [conda env](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#creating-an-environment-from-an-environment-yml-file)
