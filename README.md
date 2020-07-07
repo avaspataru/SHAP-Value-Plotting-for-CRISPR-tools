@@ -71,7 +71,7 @@ An example of a produced plot, which compares the positional features of SSC, Tu
 python shapToHeatMap.py
 ```
 
-This script will take the average SHAP values of all positional features across all the tools and prints them in a csv (avg_shap_vals.csv) and produces a heatmap showing all the values together. It requires the pickle files for all tools to be generated. 
+This script will take the average SHAP values of all positional features across all the tools and prints them in a csv (results/avg_shap_vals.csv) and produces a heatmap showing all the values together. It requires the pickle files for all tools to be generated. The heatmap is saved in plots.
 
 The heatmap generated so far using the average SHAP values of all tools: 
 
