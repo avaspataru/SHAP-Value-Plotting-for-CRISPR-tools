@@ -60,6 +60,10 @@ python comparePositionTools.py
 
 This script will produce a plot similar to the one above (for one tool, all the positional features), but by combining multiple tools. This serves to compare the positional preferences across tools. It requires the pickle files to be generated for the tools to be used.
 
+An example of a produced plot, which compares the positional features of SSC, Tuscan-Classification and Wu-CRISPR: 
+![alt text](https://github.com/avaspataru/Shapley-Value-Plotting-for-CRISPR-tools/blob/master/plots/compare-guide-positions/ssc-tc-wu.JPG)
+
+
 **To create a heatmap and csv of all the average SHAP values across all the tools**: 
 
 ```
@@ -67,6 +71,11 @@ python shapToHeatMap.py
 ```
 
 This script will take the average SHAP values of all positional features across all the tools and prints them in a csv (avg_shap_vals.csv) and produces a heatmap showing all the values together. It requires the pickle files for all tools to be generated. 
+
+The heatmap generated so far using the average SHAP values of all tools: 
+
+![alt text](https://github.com/avaspataru/Shapley-Value-Plotting-for-CRISPR-tools/blob/master/plots/compare-guide-positions/all-heatmap.JPG)
+
 
 ## Other files 
   **datasets** : scripts for extracting the guide sequences (in tool specific format) from the original dataset files
