@@ -98,9 +98,14 @@ The heatmap generated so far using the average SHAP values of all tools:
   - WU-CRISPR [paper](https://genomebiology.biomedcentral.com/articles/10.1186/s13059-015-0784-0) and [code](https://github.com/wang-lab/WU-CRISPR)
   - SSC [paper](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4509999/) and [code](https://sourceforge.net/projects/spacerscoringcrispr/) 
   - CHOP-CHOP [paper](https://academic.oup.com/nar/article/47/W1/W171/5491735) and [code](https://bitbucket.org/valenlab/chopchop/src/master/)
- ## Observations 
+
+## Observations 
  For each tool, the code parts which construct the model and/or score the gRNA have been extracted and adapted to fit to the tooldata interface. For adding any other tool, its code only needs to be put into the specified format by the interface.
  
  Some of the tools require different packages to unpickle files (different versions of scikit-learn). There will be a warning informing you if the wrong version is ran.
   
   The scripts take guides of length 20 and score them assuming PAM NGG. All the guide positions are standardized to 0-19, where 19 is the position adjacent to the PAM.
+
+## Still working on 
+- better interface for comparing scripts. (to allow specifying which to include from command line) 
+- option to use avg SHAP values when datapoints have high value. (in discussions) 
