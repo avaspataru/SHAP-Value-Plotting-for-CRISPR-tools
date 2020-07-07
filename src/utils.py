@@ -18,6 +18,22 @@ def getDatasetName(fileName):
     dataName = split[-1] #last word in fileName
     return dataName
 
+#for a fiven tool name, gets a shorthand
+def getShorthand(tool):
+    if tool == 'tuscan-classification':
+        return 'tc'
+    elif tool == 'tuscan-regression':
+        return 'tr'
+    elif tool == 'wu-crispr':
+        return 'wu'
+    elif tool == 'sgrnascorer2':
+        return 's2'
+    elif tool in ['chop-chop-xu', 'chop-chop-doench', 'chop-chop-moreno']:
+        sep = tool.split('-')
+        return 'chop-'+sep[2][0] #first letter of the scoring method
+    else:
+        return tool
+
 
 #returns the object corresponding to the requested tool
 def getToolObject(toolName):

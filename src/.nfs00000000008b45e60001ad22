@@ -3,16 +3,6 @@ from utils import *
 from matplotlib.ticker import (MultipleLocator, FormatStrFormatter,
                                AutoMinorLocator)
 
-def getShorthand(tool):
-    if tool == 'ssc':
-        return 'ssc'
-    elif tool == 'tuscan-classification':
-        return 'tc'
-    elif tool == 'tuscan-regression':
-        return 'tr'
-    elif tool == 'wu-crispr':
-        return 'wu'
-
 #all of the tools to be compared, including scoring methods and model types (tuscan, chop-chop)
 tools = ['ssc' ,'tuscan-classification', 'wu-crispr'] #'tuscan-regression'] #,'sgrnascorer2','wu-crispr','chop-chop-xu','chop-chop-doench','chop-chop-moreno']
 
