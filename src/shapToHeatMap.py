@@ -10,13 +10,13 @@ tools = ['ssc' ,'tuscan-classification', 'tuscan-regression', 'sgrnascorer2','wu
 datasets = ['xu', 'doench']
 
 #the feature names to be printed
-rows = []
+features = []
 for p in range(0,20):
     for n in nucleotides:
-        rows.append(str(p) + n)
+        features.append(str(p) + n)
 
 #fill in data (the average shap values for each fetaure for each tool)
-columns = []
+methods = []
 table = []
 for tool in tools:
     for data in datasets:
@@ -37,22 +37,23 @@ for tool in tools:
                 data.append(averages[n][p])
 
         #append for csv
-        columns.append(methodName)
+        methods.append(methodName)
         table.append(np.array(data))
 
 #arrange data table
 table = np.array(table)
-#table = table.transpose() # to have each tool as a column
 
-df = pd.DataFrame(data=table, columns=rows, index=columns)
-df.to_csv('avg_shap_vals.csv')
+#save csv
+df = pd.DataFrame(data=table, columns=features, index=methods)
+df.to_csv('../results/avg_shap_vals.csv')
 
+#plot
 fig, ax = plt.subplots(figsize=(16,80))
 sns.heatmap(df, center=0)
-ax.set_title("Average Shap Values Across Tools")
-
-# This sets the yticks "upright" with 0, as opposed to sideways with 90.
+ax.set_title("Average Shap Values Across Methods")
 plt.yticks(rotation=0)
-plt.xticks(range(0,80),rows)
+plt.xticks(range(0,len(features)),features)
 
+#save and show plot
+plt.savefig("../plots/compare-guide-positions/all-heatmap.png")
 plt.show()
