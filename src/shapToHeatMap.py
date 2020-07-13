@@ -2,12 +2,13 @@ from utils import *
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+from utils import getDataset
 
 #all of the tools to be compared, including scoring methods and model types (tuscan, chop-chop)
-tools = ['ssc' ,'tuscan-classification', 'tuscan-regression', 'sgrnascorer2','wu-crispr','chop-chop-xu','chop-chop-doench','chop-chop-moreno']
+tools = ['ssc' , 'sgrnascorer2','chop-chop-xu','chop-chop-doench','chop-chop-moreno', 'wu-crispr', 'tuscan-classification', 'tuscan-regression']
 
 #the datasets these tools were ran on
-datasets = ['xu', 'doench']
+datasets = ['doench'] #, 'doench']
 
 #the feature names to be printed
 features = []
@@ -25,7 +26,7 @@ for tool in tools:
         methodName = getShorthand(tool) + '-' + data
 
         #get a list of tuples (avg shap val, feature name)
-        featureImp = getAvgShapValues(pickleFileName)
+        featureImp = getPositiveShapValues(pickleFileName)
 
         #creates dictionary where average[nucleotide id][position] = the average shap value of the nucleotide being at that position
         averages = getShapValsForPosFeatures(featureImp) #function def in utils
@@ -49,7 +50,7 @@ df.to_csv('../results/avg_shap_vals.csv')
 
 #plot
 fig, ax = plt.subplots(figsize=(16,80))
-sns.heatmap(df, center=0)
+sns.heatmap(df, center=0,  cmap='coolwarm')
 ax.set_title("Average Shap Values Across Methods")
 plt.yticks(rotation=0)
 plt.xticks(range(0,len(features)),features)
