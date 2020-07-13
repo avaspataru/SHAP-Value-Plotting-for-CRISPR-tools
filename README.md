@@ -109,4 +109,3 @@ An example of a heatmap with all the tools ran on Xu:
 
 ## Still working on 
 - better interface for comparing scripts. (to allow specifying which to include from command line) 
-- option to use avg SHAP values when datapoints have high value. (in discussions) 
