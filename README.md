@@ -77,6 +77,17 @@ An example of a heatmap with all the tools ran on Xu:
 
 ![alt text](https://github.com/avaspataru/Shapley-Value-Plotting-for-CRISPR-tools/blob/master/plots/heatmaps/PositiveOnly_ALL_Xu.JPG)
 
+**To crate spider plots comparing the positional features across all the tools**:
+
+```
+python shapToHeatMap.py
+```
+
+This script will require the pickle files to have been generated. Customizing the choice of models/dataset is done via the arrays declared (for now). 
+
+An example of spider plot with all the tools ran on Xu:
+
+![alt text](https://github.com/avaspataru/Shapley-Value-Plotting-for-CRISPR-tools/blob/master/plots/radial/radialXu.png)
 
 ## Other files 
   **datasets** : scripts for extracting the guide sequences (in tool specific format) from the original dataset files
