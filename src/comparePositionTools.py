@@ -4,7 +4,7 @@ from matplotlib.ticker import (MultipleLocator, FormatStrFormatter,
                                AutoMinorLocator)
 
 #all of the tools to be compared, including scoring methods and model types (tuscan, chop-chop)
-tools = ['ssc' ,'tuscan-classification', 'wu-crispr'] #'tuscan-regression'] #,'sgrnascorer2','wu-crispr','chop-chop-xu','chop-chop-doench','chop-chop-moreno']
+tools = ['ssc' ,'tuscan-classification', 'wu-crispr', 'sgrnascorer2'] #'tuscan-regression'] #,'sgrnascorer2','wu-crispr','chop-chop-xu','chop-chop-doench','chop-chop-moreno']
 
 #the datasets these tools were ran on
 datasets = ['xu']#,'doench']
@@ -12,9 +12,10 @@ datasets = ['xu']#,'doench']
 #setting up for plotting
 positions = range(0,20)
 x = np.arange(len(positions))  # the label locations
-width = 0.8  # the width of the bars together
+width = 1  # the width of the bars together
 barwidth = width / (len(tools)*len(datasets)) #the width of a single bar
-fig, ax = plt.subplots()
+fig, ax = plt.subplots(figsize=(10,7))
+spacer = 0
 
 #add separators for each position in the guide
 for p in range(0,21):
@@ -63,9 +64,9 @@ plt.plot(range(-1,21), [0]*22, color='black', linewidth=0.2)
 
 
 plt.ylabel("SHAP values")
-plt.xlabel("Tools ran on XU")
+plt.xlabel("Models ran on Xu 2015")
 plt.title("Guide positions")
 plt.legend((pA[0], pC[0], pG[0], pT[0]), ('A', 'C', 'G', 'T'))
-
+plt.savefig('compare.png',bbox_inches="tight")
 
 plt.show()

@@ -1,6 +1,7 @@
 import pickle
 import argparse
 import shap
+import matplotlib.pyplot as plt
 
 #get the pickle file from arguments
 parser = argparse.ArgumentParser(description="specify the file to unpicke for the SHAP values")
@@ -18,4 +19,6 @@ p.close()
 
 #plot
 print("Plotting...")
-shap.summary_plot(shap_values, dataset)
+shap.summary_plot(shap_values, dataset, show=False)
+plt.savefig("../plots/" + fileName + ".png", format='png', dpi=100, bbox_inches='tight')
+plt.show()
