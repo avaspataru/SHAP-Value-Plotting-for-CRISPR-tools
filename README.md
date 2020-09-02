@@ -71,11 +71,11 @@ An example of a produced plot, which compares the positional features of SSC, Tu
 python shapToHeatMap.py
 ```
 
-This script will take the average SHAP values of all positional features across all the tools and prints them in a csv (results/avg_shap_vals.csv) and produces a heatmap showing all the values together. It requires the pickle files for all tools to be generated. The heatmap is saved in plots.
+This script will take the average SHAP values of all positional features across all the tools and produce a heatmap showing all the values together. It requires the pickle files for all tools to be generated. For now the names of tools and datasets to be ran are selected from within the file.
 
-The heatmap generated so far using the average SHAP values of all tools: 
+An example of a heatmap with all the tools ran on Xu: 
 
-![alt text](https://github.com/avaspataru/Shapley-Value-Plotting-for-CRISPR-tools/blob/master/plots/compare-guide-positions/all-heatmap.JPG)
+![alt text](https://github.com/avaspataru/Shapley-Value-Plotting-for-CRISPR-tools/blob/master/plots/heatmaps/PositiveOnly_ALL_Xu.JPG)
 
 
 ## Other files 
@@ -109,4 +109,3 @@ The heatmap generated so far using the average SHAP values of all tools:
 
 ## Still working on 
 - better interface for comparing scripts. (to allow specifying which to include from command line) 
-- option to use avg SHAP values when datapoints have high value. (in discussions) 
