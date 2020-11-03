@@ -51,6 +51,7 @@ def main(toolName,datasetName):
 
     #compute and plot shapley values
     shap_explainer = shap.KernelExplainer(model.predict,summary_train_df)
+    print(dataset_sub_df)
     shap_values = shap_explainer.shap_values(dataset_sub_df)
 
     #save the values
