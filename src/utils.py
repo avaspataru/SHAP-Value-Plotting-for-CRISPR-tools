@@ -31,6 +31,8 @@ def getShorthand(tool):
     elif tool in ['chop-chop-xu', 'chop-chop-doench', 'chop-chop-moreno']:
         sep = tool.split('-')
         return 'chop-'+sep[2][0] #first letter of the scoring method
+    elif tool == 'deep-crispr':
+        return 'dc'
     else:
         return tool
 
@@ -60,6 +62,10 @@ def getToolObject(toolName):
         from chopchopdata import ChopChopData
         tool = ChopChopData()
         tool.setScoring(toolName)
+    elif toolName == 'deep-crispr':
+        sys.path.insert(0,'./deep-crispr-model')
+        from deepcrisprdata import DeepCRISPRData
+        tool = DeepCRISPRData()
     else:
         print("Tool Name not valid")
         quit()
